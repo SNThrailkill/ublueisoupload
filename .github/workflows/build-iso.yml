@@ -38,8 +38,6 @@ jobs:
     runs-on: ${{ inputs.platform == 'amd64' && 'ubuntu-24.04' || 'ubuntu-24.04-arm' }}
     strategy:
       fail-fast: false
-      matrix:
-        platform: $BUILD_ARCH
     permissions:
       contents: read
       packages: read
@@ -55,7 +53,7 @@ jobs:
             podman
 
       - name: Maximize build space
-        if: matrix.platform != 'arm64'
+        if: inputs.platform != 'arm64'
         uses: ublue-os/remove-unwanted-software@cc0becac701cf642c8f0a6613bbdaf5dc36b259e # v9
         with:
           remove-codeql: true
