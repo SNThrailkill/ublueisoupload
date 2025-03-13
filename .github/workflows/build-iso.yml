@@ -24,8 +24,7 @@ on:
       - './Justfile'
 
 env:
-  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
-  IMAGE_NAME: "${{ github.repository }}"
+  IMAGE_REGISTRY: "ghcr.io/${{ github.repository }}"
   DEFAULT_TAG: "latest"
 
 concurrency:
@@ -71,7 +70,7 @@ jobs:
           bootc-image-builder-image: ghcr.io/centos-workstation/bootc-image-builder:latest
           use-librepo: true
           config-file: ./iso.toml
-          image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
+          image: ${{ env.IMAGE_REGISTRY }}:${{ env.DEFAULT_TAG }}
 
       - name: Upload to S3
         if: inputs.upload-to-s3 == true && github.event_name != 'pull_request'
