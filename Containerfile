@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/bazzite:stable
+FROM ghcr.io/ublue-os/bluefin:latest
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
@@ -15,7 +15,7 @@ FROM ghcr.io/ublue-os/bazzite:stable
 
 COPY build.sh /tmp/build.sh
 
-# RUN mkdir -p /var/lib/alternatives && \
-#     /tmp/build.sh && \
-#     ostree container commit
+RUN mkdir -p /var/lib/alternatives && \
+    /tmp/build.sh && \
+    ostree container commit
     
