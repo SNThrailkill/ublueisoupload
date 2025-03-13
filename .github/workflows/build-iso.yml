@@ -45,7 +45,7 @@ jobs:
     steps:
       - name: lower case the image registry in case of any capitalization
         run: |
-          echo "IMAGE_REGISTRY=${OWNER,,}" >> ${GITHUB_ENV}
+          echo "IMAGE_REGISTRY_LOWERCASE=${OWNER,,}" >> ${GITHUB_ENV}
       
       - name: Install dependencies
         if: inputs.platform == 'arm64'
@@ -74,7 +74,7 @@ jobs:
           bootc-image-builder-image: ghcr.io/centos-workstation/bootc-image-builder:latest
           use-librepo: true
           config-file: ./iso.toml
-          image: ${{ env.IMAGE_REGISTRY }}:${{ env.DEFAULT_TAG }}
+          image: ${{ env.IMAGE_REGISTRY_LOWERCASE }}:${{ env.DEFAULT_TAG }}
 
       - name: Upload to S3
         if: inputs.upload-to-s3 == true && github.event_name != 'pull_request'
