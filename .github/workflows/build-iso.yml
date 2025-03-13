@@ -19,14 +19,9 @@ on:
 
 env:
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
-  IMAGE_NAME: "yourimagename"
+  IMAGE_NAME: "${{ github.repository }}"
   DEFAULT_TAG: "latest"
-  BUILD_ARCH: [ # You can control which architectures you build for by setting this variable
-    #arm64, 
-    amd64,
-    ]
-  S3_PROVIDER: "yours3provider" # Must be one of the following values:  
-  S3_BUCKET_NAME: "yourbucketname"
+  BUILD_ARCH: "amd64"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
@@ -80,7 +75,7 @@ jobs:
         shell: bash
         env:
           RCLONE_CONFIG_S3_TYPE: s3
-          RCLONE_CONFIG_S3_PROVIDER: ${{ env.S3_PROVIDER }}
+          RCLONE_CONFIG_S3_PROVIDER: ${{ secrets.S3_PROVIDER }}
           RCLONE_CONFIG_S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
           RCLONE_CONFIG_S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
           RCLONE_CONFIG_S3_REGION: ${{ secrets.S3_REGION }}
@@ -89,4 +84,4 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y rclone
-          rclone copy $SOURCE_DIR S3:${{ env.S3_BUCKET_NAME }}
+          rclone copy $SOURCE_DIR S3:${{ secrets.S3_BUCKET_NAME }}
